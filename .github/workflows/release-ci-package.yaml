@@ -25,12 +25,13 @@ jobs:
 
       - name: Create release
         uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: v$npm_package_version
+          tag_name: v${{ env.npm_package_version }}
+          release_name: v${{ env.npm_package_version }}
           body: ${{ steps.release_body.outputs.body }}
           draft: false
-          prerelease: false
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release body
         id: release_body
