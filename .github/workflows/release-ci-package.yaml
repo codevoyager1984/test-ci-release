@@ -18,13 +18,13 @@ jobs:
         run: npm run build
 
       - name: Release
-        uses: actions/upload-artifact@4
+        uses: actions/upload-artifact@latest
         with:
           name: dist
           path: dist
 
       - name: Create release
-        uses: actions/create-release@v4
+        uses: actions/create-release@latest
         with:
           name: v$npm_package_version
           body: ${{ steps.release_body.outputs.body }}
