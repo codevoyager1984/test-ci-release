@@ -1,0 +1,38 @@
+name: Release Dev Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Release
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+      - name: Create release
+        uses: actions/create-release@v3
+        with:
+          name: v$npm_package_version
+          body: ${{ steps.release_body.outputs.body }}
+          draft: false
+          prerelease: false
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release body
+        id: release_body
+        run: |
+          echo "Auto generated dev release" >> $GITHUB_OUTPUT
